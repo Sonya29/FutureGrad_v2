@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div style="width:100% !important;margin-left:0px;margin-right:0px" id="myPage">
+
+
+    <div class="jumbotron text-center">
+        <h1>FutureGrad</h1>
+        <p><i>Providing a unique e-Marking Experience</i></p>
+    </div>
+
+    <div class="container-fluid" id="loginPanel">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-3">
+                <span class="glyphicon glyphicon-education logo"></span>
+            </div>
+            <div class="col-sm-5">
+                <h2>Login</h2><hr />
+                <form action="Login" method="post">
+                    <input class="form-control" type="text" name="txtUsername" id="txtUsername" placeholder="username" />
+                    <input class="form-control" type="password" name="txtPassword" id="txtPassword" placeholder="password" />
+                    <button class="btn" type="submit" name="btnLogin" id="btnLogin">Login</button>
+                </form>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-grey" id="welcome">
+        <div class="row">
+            @*<div class="col-sm-1"></div>*@
+            <div class="col-sm-10" style="text-align:justify">
+                <h3>Welcome</h3>
+                <p>
+                    Electronic marking has brought many benefits to the e-learning field. The aims of this project are to enhance usability of e-marking systems, and to provide students with more effective feedback. To achieve this, a literature review will be conducted to find out what factors make feedback effective and whether any of these are overlooked by current systems. Interviews will be carried out with students to find out how feedback can be made more meaningful to them as well as any issues they face when completing/submitting assignments. Requirements will be gathered and grouped into functionalities to ease the scheduling process. By the end of this project, it is hoped that a web application would have been developed, that would enforce feedback of a high quality and provide a stylus-friendly e-marking feature.
+                </p>
+                <p>
+                    In contrast to the pen-and-paper system, e-Marking has allowed universities to track and back-up student submissions, record and analyse student results, as well as allow flexible working for lecturers, without the need of printing and managing paper work. It has also opened doors to many people, in terms of accessibility, allowing those with disabilities to complete courses via the internet.  Electronic marking has also enforced the use of typed submissions, over hand-written submissions, which has been a factor in examiner bias according to research by Markham et al (1976).
+                </p>
+            </div>
+            <div class="col-sm-2"><span class="glyphicon glyphicon-globe logo slideanim"></span></div>
+            @*<div class="col-sm-1"></div>*@
+        </div>
+    </div>
+
+    <div class="container-fluid" id="markerBias">
+        <div class="row">
+            @*<div class="col-sm-1"></div>*@
+            <div class="col-sm-2">
+                <span class="glyphicon glyphicon-ok logo slideanim"></span>
+            </div>
+            <div class="col-sm-10" style="text-align:justify">
+                <h3>Marker Bias</h3>
+                <p>
+                    Examiner bias can be the result of unconscious as well as conscious motives. An example of unconscious bias would be the contrast effect, where perception is affected by comparing experiences to previous ones. Anonymous marking has been introduced as an option in many e-marking systems, to combat examiner bias, which could lead to unreliable marking. For example, Dennis and Newstead (1994) found that the race, gender and age of students in higher education were three of many factors that lead to examiner bias. Similar conclusions were drawn from studies by Filippou et al (2011), which found that perception of intelligence was affected by the physical attractiveness, sense of humour and friendliness of a person, which lead to bias in marking. However, an alternate explanation to these findings would be that people with a good sense of humour tend to be more intelligent, as demonstrated by the findings of Greengross and Miller (2011).
+                </p>
+                <p>
+                    Various studies have supported anonymous marking as a solution to this issue - for example, the research by the Association of the University Teachers demonstrated the number of firsts awarded to female students increased, subsequent to the introduction of anonymous marking. However, it is not clear whether this is a causal link. Although the link may be partly due to unconscious bias (e.g. when a marker’s perception is affected by their expectations) and/or discrimination, it is likely that other extraneous variables are involved. For example, Else-Quest (2010) found that females are more self-conscious than males – it could therefore be interpreted that female students are less likely to take risks in multiple-choice questions, and less likely to express their opinions during essay-based assessments, thus gaining a lower mark.
+                </p>
+                <p>
+                    Studies carried out at the University of Bath (2014), has shown that anonymous marking improved student performance, as a result of students being more open about their ideas, as well as reducing examiner bias. The same study also found that students were more likely to express concerns about their course and participate in classroom discussions if anonymous marking was in place. This idea is supported by research by Milgram (1963) and Zimbardo (1971), both of which provides evidence for the theory of deindividualisation, where anonymity leads to lowered levels of self-awareness and fear, resulting in changes to behaviour. With regards to anonymous marking, students would not feel that the lecturers’ perception of them would affect the marks that they will be awarded. Therefore, they are more likely to participate in class discussions, openly; anonymous marking does not only enforce fairness in the education system but also increases general student satisfaction through engagement, which enforces immediate and formative feedback.
+                </p>
+                <p>
+                    Despite the benefits of anonymous marking, it is not favoured by many academics. Studies by Ferrel (2014) have identified reasons behind why anonymous marking is not enforced, such as the barriers in managing students with special needs/mitigating circumstances as well as the loss of anonymity due to students having their names on documents rather than their IDs.  Other issues raised include the lack of anonymity during oral presentations, where race has been identified as the major factor in marker bias. Again, this is not a causal link; it is possible that international students lack confidence during oral presentation due to difference in accent or language difficulty, causing them to underperform. In regards to the project, more research is to be done on how lecturers manage students with special needs, and whether any of the responsibilities could be aided by automated features.
+                </p>
+</div>
+            @*<div class="col-sm-3"></div>*@
+        </div>
+
+        <!-- Container (Contact Section) -->
+
+    </div>
+
+    <div class="container-fluid bg-grey" id="immediateVsDelayedFeedback">
+        <div class="row">
+            @*<div class="col-sm-1"></div>*@
+            <div class="col-sm-10" style="text-align:justify">
+                <h3>Immediate Feedback Vs Delayed Feedback</h3>
+                <p>
+                    Studies by Epstein and Lazarus (2002) have found that students tend to show increased performance on immediate feedback than delayed feedback.  However, later studies have supported that immediate feedback was effective for difficult content, but delayed feedback was more effective for easier content. This may be the result of the way in which information is processed by the brain; for an effective learning process, three stages must occur consecutively – attention, rehearsal and retrieval, which was referred to as the Memory Model by Atkinson and Shiffrin (1968). For example, an assessment that was perceived to be “easy” would imply that the earlier stages of learning (i.e. attention) to have been successful. Therefore, delayed feedback may be more beneficial as it enforces rehearsal of the information. In terms of the system being developed, it is possible that students are asked how easy they found the assignment; the information could then be used to prioritise the assignments that require earlier feedback.
+                </p>
+            </div>
+            <div class="col-sm-2"><span class="glyphicon glyphicon-hourglass logo slideanim"></span></div>
+            @*<div class="col-sm-1"></div>*@
+        </div>
+    </div>
+
+    <div class="container-fluid" id="onScreenMarking">
+        <div class="row">
+            @*<div class="col-sm-1"></div>*@
+            <div class="col-sm-2">
+                <span class="glyphicon glyphicon-phone logo slideanim"></span>
+            </div>
+            <div class="col-sm-10" style="text-align:justify">
+                <h3>On-Screen Marking</h3>
+                <p>
+                    There have been several studies into whether the mode of marking (paper vs on-screen) has an impact on the marker-reliability. Paek (2005) found that reading longer passages on-screen was more difficult, and lowered comprehension; this finding was used to highlight the possible effect on marking on-screen. Although it could be argued that these findings lack historical validity, in that many screens at the time were cathode-ray tube (CRT), more recent studies by Mangen et al (2013) supported the findings. It was suggested that reading from paper increased the likelihood of recalling where the information was located (spatial-temporal memory), and therefore was more likely to be revisited, if necessary. Despite this, many studies, including Johnson (2012), found that the accuracy of marking assessments on-screen was of equal quality, as those marked on paper. A possible explanation to this may be that studies tend to use student participants; results may not apply to academics. An alternative explanation could be that academics have adapted to reading off a screen, which has improved their comprehension over time. However, the study showed that markers faced more difficulties marking on-screen, due to the barriers in annotating documents, as well as navigating through the text. This raises usability concerns of the current systems, which must be considered when developing the proposed system, in the hope that it could speed up the marking process. 
+                </p>
+                <p>
+                    A possible solution to improving usability would be to bridge the gap between on-screen marking and traditional marking. Cognitive researchers, Longchamp and Velay (2014), found that comprehension was improved in children and adults when reading handwritten content than typed content, which provides further support towards implementing such a feature. According to Chang (2012), the quality of feedback was four times better when handwritten, compared to feedback provided electronically. However, accessibility was improved by electronic marking, in that it allowed students to access feedback via their desktop, laptops and mobile devices. An earlier study by Fergeson (2011) found that students appreciated handwritten feedback more due to the personal nature of comments, i.e. feedback was more relevant to the students. This was not the case in e-marking where students are provided with more general feedback. Despite feedback being accessible from mobile devices, Singh (2010) found that comprehension was significantly reduced when reading off a smaller screen due to the reduced number of words users see at a given time, thus placing more demand on users’ memory. It was found that comprehension was reduced with the difficulty of the content. Therefore, the new system should encourage students to view feedback on a screen that is no smaller than a tablet as it is vital that students absorb the feedback provided by their academics.
+                </p>
+            </div>
+            @*<div class="col-sm-3"></div>*@
+        </div>
+
+        <!-- Container (Contact Section) -->
+
+    </div>
+
+    @*<div class="container-fluid bg-grey" id="mission">
+        <div class="row">*@
+            @*<div class="col-sm-1"></div>*@
+            @*<div class="col-sm-10" style="text-align:justify">
+                <h3>View Dissertation</h3>
+            </div>
+            <div class="col-sm-2"><span class="glyphicon glyphicon-file logo slideanim"></span></div>*@
+            @*<div class="col-sm-1"></div>*@
+        @*</div>
+    </div>*@
+
+    <footer class="container-fluid text-center">
+        <a href="#myPage" title="To Top">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <p>
+            SonyaSoftware &copy September 2016
+        </p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            navBarShowLogIn();
+            // Add smooth scrolling to all links in navbar + footer link
+            $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 900, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+
+            $(window).scroll(function () {
+                $(".slideanim").each(function () {
+                    var pos = $(this).offset().top;
+
+                    var winTop = $(window).scrollTop();
+                    if (pos < winTop + 600) {
+                        $(this).addClass("slide");
+                    }
+                });
+            });
+        })
+    </script>
+</div>

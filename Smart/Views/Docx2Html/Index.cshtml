@@ -1,0 +1,198 @@
+﻿@model Smart.Models.DocumentViewer
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="icon" href="~/Content/favicon.gif" type="image/gif" sizes="16x16">
+    <title>SonyaSoftware</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        #container {
+            width: 1700px;
+            height: 100%;
+            border: 1px solid black;
+            margin: 0 auto;
+            overflow: auto;
+            position: relative;
+        }
+
+        #sketchpadapp {
+            /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .leftside {
+            float: left;
+            width: 220px;
+            height: 285px;
+            background-color: #def;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .rightside {
+            float: left;
+            margin-left: 10px;
+        }
+
+        #myCanvas {
+            float: left;
+            border: 2px solid #888;
+            border-radius: 4px;
+            position: relative;
+        }
+    </style>
+
+</head>
+<body>
+    <div style="position:fixed; z-index: 1">
+        <button value="blue" id="btnBlue" name="btnBlue" class="btn btn-primary" @Model.annotationStatus>blue</button>
+        <button value="red" id="btnRed" name="btnRed" class="btn btn-danger" @Model.annotationStatus>red</button>
+        <button value="green" id="btnGreen" name="btnGreen" class="btn btn-success" @Model.annotationStatus>green</button>
+        <button value="clear" id="btnClear" name="btnClear" class="btn btn-default" onclick="clearCanvas()" @Model.annotationStatus>clear</button>
+        <form action="~/Docx2Html/saveAnnotations" method="post">
+            <button id="btnSave" name="btnSave" class="btn" type="submit" onclick="save()" @Model.annotationStatus>save</button>
+        </form>
+        <button value="view" id="btnViewSaved" name="btnViewSaved" class="btn" onclick="viewSaved()" @Model.annotationStatus>view</button>
+        <button value="undo" id="btnUndo" name="btnUndo" class="btn" onclick="undo()" @Model.annotationStatus>Undo</button>
+    </div>
+    <div id="container" style="display:inline">
+        <div style="position:absolute; width: 1000px;padding-left:20%" id="viewer">@Html.Raw(Model.document.ToString())</div>
+        <div id="sketchpadapp" style="width: 100%; height:300%">
+            <div class="rightside" style="width: 100%; height:100%">
+                <canvas id="myCanvas" height="2000" width="2000" style="border: 0pt; background-color: transparent; z-index:0"></canvas>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var touchX = 100;
+        var touchY = 75;
+        var colour = "blue";
+        var clear = true;
+        document.getElementById("myCanvas").height = document.getElementById("viewer").clientHeight;
+        document.getElementById("btnRed").onclick = selectColour;
+        document.getElementById("btnGreen").onclick = selectColour;
+        document.getElementById("btnBlue").onclick = selectColour;
+        function selectColour(){
+            colour = this.value;
+        }
+        var coordinates = generateArray("@Model.coordinates");
+        function generateArray(code)
+        {
+            var arr = code.split("||");
+            var result = [];
+            for(var i = 0; i < arr.length; i++){
+                var a = arr[i];
+                var coordinateCode = a.split(",");
+                var x = [];
+                x[0] = coordinateCode[0];
+                x[1] = coordinateCode[1];
+                x[2] = coordinateCode[2];
+                result[result.length] = x;
+            }
+            return result;
+        }
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        viewSaved();
+        function draw(){
+            ctx.fillStyle = colour;
+            ctx.beginPath();
+            ctx.arc(touchX, touchY, 3, 0, Math.PI*2, true);
+            ctx.fill();
+        }
+        document.getElementById("myCanvas").addEventListener('touchstart', function(e){
+            e.preventDefault();
+            touchX = e.changedTouches[0].pageX;
+            touchY = e.changedTouches[0].pageY;
+            coordinates[coordinates.length] = [touchX, touchY, colour];
+            draw();
+            clear = false;
+        }, false);
+        document.getElementById("myCanvas").addEventListener('touchmove', function(e){
+            if(e.touches.length == 1){
+                e.preventDefault();
+                touchX = e.changedTouches[0].pageX;
+                touchY = e.changedTouches[0].pageY;
+                clearCoordinatesArray(); 
+                coordinates[coordinates.length] = [touchX, touchY, colour];
+                draw(); 
+                clear = false;
+            }
+        }, false);
+        document.getElementById("myCanvas").addEventListener('touchend', function(e){
+            e.preventDefault();
+            touchX = e.changedTouches[0].pageX;
+            touchY = e.changedTouches[0].pageY;
+            clearCoordinatesArray();		
+            coordinates[coordinates.length] = [".", ".", "."];
+            draw();
+            clear = false;
+        }, false);
+        function undo(){
+            var arr = []; 
+            for(i = 0; i < coordinates.length; i++){
+                if(coordinates[i][0] == "." && coordinates[i][1] == "." && coordinates[i][2] == "."){
+                    arr[arr.length] = i;
+                }
+            }
+            var incPositions = [];
+            for(i = 0; i <= arr.length - 2; i++){
+                incPositions[incPositions.length] = arr[i];
+            }
+            var newC = [];
+            for(i = 0; i <= incPositions[incPositions.length-1]; i++){
+                newC[newC.length] = [coordinates[i][0],coordinates[i][1],coordinates[i][2]];
+            }
+            coordinates = newC;
+            viewSaved();
+        }
+        function clearCanvas(){
+            ctx.clearRect(0, 0, 2000, 1000);
+            clearCoordinatesArray();
+            clear = true;
+        }
+        function viewSaved(){
+            ctx.clearRect(0, 0, 2000, 1000);
+            for(i = 0; i < coordinates.length; i++)
+            {
+                if(coordinates[i] != [".", ".", "."]){
+                    touchX = coordinates[i][0];
+                    touchY = coordinates[i][1];
+                    colour = coordinates[i][2];
+                    draw();
+                }
+            }
+        }
+        function clearCoordinatesArray(){
+            if(clear == true){
+                coordinates = [[".",".","."]];
+            }
+        }
+        function generateCode(){
+            var codeAsString = "";
+            for(i = 0; i < coordinates.length; i++){
+                codeAsString = codeAsString + coordinates[i][0] + "," + coordinates[i][1] + "," + coordinates[i][2] + "||";
+            }
+            return codeAsString;
+        }
+        function save(){ 
+            document.getElementById("btnSave").value = generateCode();
+        }
+
+    </script>
+</body>
+</html>

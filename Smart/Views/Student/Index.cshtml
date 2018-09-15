@@ -1,0 +1,21 @@
+﻿@model List<SmartSchool.Models.SimpleModel>
+@{
+    ViewBag.Title = "Index";
+}
+<br /><br /><br />
+<h1 style="margin-left:20%">Modules</h1>
+<div style="width: 100%; margin-left: 20%">
+    @foreach (var m in Model)
+    {
+        <form action="Student/Module" method="post" id="main">
+            <input type="hidden" name="moduleName" value="@m.name" />
+            <button type="submit" class="btn btn-primary" style="width: 50%" name="btnModule" value=@m.strId>@m.name</button><br />
+        </form>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        navBarShowLogOut();
+    });
+</script>
+

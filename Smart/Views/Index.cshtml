@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div id="x"></div>
+<script src="../Scripts/Component.js">
+        var c = new Component("a", "b", "c", "d", "button");
+        alert(c.id);
+        c.addToElement("x");
+</script>

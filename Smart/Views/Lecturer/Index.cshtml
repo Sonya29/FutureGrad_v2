@@ -1,0 +1,50 @@
+﻿@model List<SmartSchool.Models.SimpleModel>
+@{
+    ViewBag.Title = "Index";
+}
+<br /><br /><br />
+<h1 style="margin-left:20%">Modules</h1>
+<div style="width: 60%; margin-left:20%">
+    <div class="panel panel-default">
+       <div class="panel-heading">Create Assignment</div>
+        <div class="panel-body">
+            <form action="createAssignment" method="post">
+                <input type="text" name="title" placeholder="title" />
+                <input type="date" name="deadline" placeholder="deadline" />
+                <input type="number" name="moduleWeight" step="0.01" placeholder="module weight" />
+                <fieldset>
+                    <p>Select Cohorts</p>
+                    @foreach (var cmy in Model)
+                    {
+                        @cmy.name <input type="checkbox" name="cmy" value="@cmy.strId" /><br />
+                    }
+                </fieldset>
+                <select name="submissionFormat">
+                    <option value="Select Format" disabled selected>Select Format</option>
+                    <option value="Single">Single</option>
+                    <option value="Group">Group</option>
+                </select>
+                <button type="submit" name="btnCreateAssignment" id="createAssignment">Submit</button>
+            </form>
+        </div>
+        </div>
+</div>
+            
+<br />
+<div class="panel panel-default"  style="width: 60%; margin-left:20%">
+    <div class="panel-heading">Classes</div>
+    <div class="panel-body">
+        @foreach (var m in Model)
+        {
+            <form action="Lecturer/AssignmentSubmissions" method="post" id="main">
+                <button type="submit" class="btn btn-primary" style="width: 100%" name="btnCohort" value="@m.strId">@m.name</button><br />
+            </form>
+        }
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function () {
+        navBarShowLogOut();
+    });
+</script>

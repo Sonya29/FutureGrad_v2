@@ -1,0 +1,138 @@
+﻿@using SmartSchool.Models
+@model SmartSchool.Models.Module
+@{
+    ViewBag.Title = "Module";
+}
+<br /><br /><br />
+<h1 style="margin-left:20%">@Model.moduleName</h1>
+<div style="width: 60%; margin-left: 20%">
+    <div class="panel panel-default">
+        <div class="panel-heading">Progress Tracker</div>
+        <div class="panel-body">
+            <div id="main">
+                <div class="progress">
+                    <div class="@Model.progressTracker.status" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:@Model.progressTracker.moduleProgress%">
+                        <div>@Model.progressTracker.moduleProgress Grade (@Model.progressTracker.grade)</div>
+                    </div>
+                </div>
+                <div>
+                    You achieved @Model.progressTracker.moduleProgress %. You have covered @Model.progressTracker.maxMark % of this module so far.<br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="width: 60%; margin-left: 20%" ">
+    <div class="panel panel-default">
+        <div class="panel-heading">Forum</div>
+        <div class="panel-body">
+            <div class="container" style="width: 90%">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">My Threads</a></li>
+                    <li><a data-toggle="tab" href="#menu1">Other Threads</a></li>
+                    <li><a data-toggle="tab" href="#menu2">Start New Thread</a></li>
+                </ul>
+                <div class="tab-content" style="width: 80%">
+                    <div id="home" class="tab-pane fade in active">
+                        <br />
+                        <div id="myThreads">
+                            @foreach (SimpleModel thread in Model.threads)
+                            {
+                                <form style="width: 100%; margin-left: 15%" action='Thread' method='get' id="forum">
+                                    <button type="submit" class="btn btn-primary btn-block" name="btn" value="@thread.numId">@thread.name</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <br />
+                        <div id="otherThreads">
+                            @foreach (SimpleModel otherThread in Model.otherThreads)
+                            {
+                                <form style="width: 50%" action='Thread' method='get' id="forum">
+                                    <button type="submit" class="btn btn-primary btn-block" name="btn" value="@otherThread.numId">@otherThread.name</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <br />
+                        <div id="startThread">
+                            <form action="startThread" style="width: 100%" method="post">
+                                <input type="text" class="form-control" id="newThread" name="newThread" autocomplete="off" placeholder="Start a Thread" onkeyup="getThreadsDunamically"><br />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                            <div id="suggestions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="width: 60%; margin-left: 20%">
+    <div class="panel panel-default">
+        <div class="panel-heading">Assignments</div>
+        <div class="panel-body">
+            <div>
+                @foreach (Submission assignment in Model.studentModuleDetails)
+                {
+                    <b>@assignment.assignmentTitle (@assignment.submissionFormat)</b>
+                    <p>Deadline : @assignment.deadline</p>
+                    <p>Module Weight: @assignment.moduleWeight %</p>
+                    <p>By @assignment.lecturerName</p>
+                    <p>Mark: @assignment.displayMark()</p>
+                    <p>@assignment.displayDateOfSubmission()  <a href="@assignment.displayFileLink()">@assignment.filename</a></p>
+                    <div style="display:inline-block">
+                        <a href="@assignment.assignmentLink">Download Brief</a>
+                        <form action="~/Docx2Html/Index" method="post">
+                            <button class="btn btn-link" type="submit" name="btnSubmission">View Brief Online</button>
+                        </form>
+                    </div><br />
+                    <div style="display:inline-block">
+                        <form action="uploadSubmission" method="post" enctype="multipart/form-data" class="@assignment.isSubmissionDisabled()">
+                            <label style="display:inline-block" class="btn btn-default btn-file">
+                                <span class="glyphicon glyphicon-upload"></span>
+                                Select file to upload <input type="file" name="btnFile" id="btnFile_@assignment.assignmentStudentId" style="display:none" onchange="displayFileLink(@assignment.assignmentStudentId)" />
+                            </label>
+                            <button type="submit" name="btnSubmitAssignment" value=@assignment.assignmentId class="btn btn-primary @assignment.isSubmissionDisabled()">Submit</button>
+                            <span id="fileSelected_@assignment.assignmentStudentId"></span>
+                        </form>
+                        <form action="~/Docx2Html/Index" method="post">
+                            <button class="btn btn-primary @assignment.isViewSubmissionDisabled()" type="submit" name="btnSubmission" value="@assignment.filepath">View Submission</button>
+                        </form>
+                    </div><br />
+                    <div>
+                        @if (assignment.isGroupTask() == true)
+                        {
+                            if (@assignment.isMembershipFormDisabled((String)Session["userId"]) == "disabled")
+                            {
+                                <form style="display:inline-block" action="createTeam" method="post">
+                                    <input type="text" name="teamName" />
+                                    <button type="submit" name="assignmentId" value="@assignment.assignmentId">Create Team</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form style="display:inline-block" action="addMemberToTeam" method="post">
+                                    <input class="form-control" style="display:inline-block" type="text" name="studentId" />
+                                    <button name="assignmentId" value="@assignment.assignmentId" class="btn btn-default" style="display:inline-block" type="submit">Add Member</button>
+                                </form>
+                                <p>@assignment.displayMembers((String)Session["userId"])</p>
+                            }
+
+                        }
+                    </div>
+
+                    <br />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    navBarShowLogOut();
+</script>

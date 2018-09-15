@@ -1,0 +1,29 @@
+﻿@using SmartSchool.Models;
+@model List<SmartSchool.Models.Thread>
+@{
+    ViewBag.Title = "Thread";
+}
+<br /><br /><br />
+<div style="width: 60%; margin-left: 20%">
+    <h1 id="title">@Model[0].title</h1><br /><i>By @Model[0].threadOwner</i><hr />
+    <div class="form-group">
+        <form action="SubmitPost" method="post">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" name="comment" id="comment"></textarea><br />
+            <button type="submit" name="btnPost" id="btnPost" class="btn btn-primary">Post</button>
+        </form>
+    </div>
+</div><br />
+<div style="width: 100%; margin-left: 20%" id="main">
+    @foreach(Thread t in Model)
+    {
+        if (t.postOwner != null && t.message != null)
+        {
+            @t.postOwner<span> Says:</span><br />
+            @t.message<hr />
+        }
+    }
+</div>
+<script>
+    navBarShowLogOut();
+</script>

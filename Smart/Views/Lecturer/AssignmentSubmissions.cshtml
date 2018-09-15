@@ -1,0 +1,24 @@
+﻿@model List<SmartSchool.Models.AssignmentSubmissions>
+@{
+    ViewBag.Title = "AssignmentSubmissions";
+}
+
+<h2 style="margin-left:20%">LecturerClassView</h2>
+
+<div  style="width: 60%; margin-left:20%">
+    @foreach (var view in Model)
+    {
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">@view.assignment.title @view.assignment.deadline</div>
+            <div class="panel-body">
+                @foreach (var m in view.submissions)
+                {
+                    <form style="display:inline" action="~/Docx2Html/Index" method="post">
+                        <button class="btn btn-@m.colourSubmission() @m.isSubmissionDisabled()" name="btnSubmission" value="@m.filepath">Submission</button>
+                    </form>
+                }
+            </div>
+        </div>
+    }
+</div>

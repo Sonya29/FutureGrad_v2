@@ -1,0 +1,8 @@
+﻿UK|USA
+Degree|Major
+Course|Subject
+Module|Course
+Lecturer|Teacher
+Academic|Teacher
+Professor|Teacher
+Assignment|Coursework
