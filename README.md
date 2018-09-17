@@ -1,7 +1,13 @@
 # FutureGrad
-e-learning system with special features including stylus-friendly marking tools
+Developed an e-learning web application which comprises of a stylus-friendly e-marking feature, forum and improved anonymous marking features which aim to:
+1) Speed up and ease the marking process (as opposed to drag n' drop marking)
+2) Encourage more personalised (as opposed to pre-defined) feedback 
+3) Automate deadline extension to special needs students who are entitled to it. This, along with automated capping of late submission, has removed the need for lecturers to identify their students when marking, thus enforcing anonymous marking and reducing marker bias.
+4) Reduce worload for lecturers by automating certain tasks e.g. Automate student allocation to core modules once they complete an academic year
+5) Encourage communication between students
+6) Support team submissions and marking of team submissions
 
-This project was originally written in PHP and was part of my dissertation at Kingston University (September 2016 - May 2017).
+This project was originally written in PHP and was part of my dissertation at Kingston University (September 2016 - May 2017)  and was re-done in .NET, in the aim to improve features as well as the architecture of the system, allowing for unit testing.
 
 Below, is a sample of my dissertation.
 
