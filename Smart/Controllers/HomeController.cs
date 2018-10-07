@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Smart.Controllers
 {
@@ -18,13 +19,13 @@ namespace Smart.Controllers
         [HttpPost]
         public ActionResult Login()
         {
-            String sql = "SELECT UserId, password, userType FROM User WHERE userID = @val1 AND password = @val2";
+            String sql = "SELECT UserId, password, userType FROM User WHERE userID = @val1 AND password = MD5(@val2)";
             Database database = new Database();
             database.OpenConnection();
             MySqlCommand cmd = new MySqlCommand(sql);
             cmd.Connection = database.connection;
             cmd.Parameters.AddWithValue("@val1", Request.Form["txtUsername"]);
-            cmd.Parameters.AddWithValue("@val2", MD5Hash(Request.Form["txtPassword"]));
+            cmd.Parameters.AddWithValue("@val2", Request.Form["txtPassword"]);
             MySqlDataReader results = cmd.ExecuteReader();
             String user = "Home";
             while (results.Read())
@@ -44,26 +45,6 @@ namespace Smart.Controllers
             return RedirectToAction("Index",user);
         }
 
-        public static string MD5Hash(string text)
-        {
-            MD5 md5 = new MD5CryptoServiceProvider();
-
-            //compute hash from the bytes of text
-            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(text));
-
-            //get hash result after compute it
-            byte[] result = md5.Hash;
-
-            StringBuilder strBuilder = new StringBuilder();
-            for (int i = 0; i < result.Length; i++)
-            {
-                //change it into 2 hexadecimal digits
-                //for each byte
-                strBuilder.Append(result[i].ToString("x2"));
-            }
-
-            return strBuilder.ToString();
-        }
     }
    
 }

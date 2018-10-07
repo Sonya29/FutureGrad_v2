@@ -23,42 +23,29 @@ namespace SmartSchool.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            if(studentHomeData == null)
-            {
-                studentHomeData = data.getModules_SimplifiedData(Session["userId"].ToString());
-            }
+            studentHomeData = data.getModules_SimplifiedData(Session["userId"].ToString());
             return View(this.studentHomeData);
         }
         public ActionResult Module()
         {
             if (Request.Form["btnModule"] != null && Request.Form["btnModule"].ToString() != "")
             {
-                try { Session["cmyId"] = Request.Form["btnModule"]; } catch (Exception ex) { }
+                Session["cmyId"] = Request.Form["btnModule"];
             }
-            if(submissionViewList == null && Session["userId"] != null)
+            if(Session["userId"] != null && Session["cmyId"] != null)
             {
                 submissionViewList = data.getAssignment_ViewData(Session["userId"].ToString(), Session["cmyId"].ToString());
-            }
-            if(progressTrackerView == null && Session["userId"] != null)
-            {
                 progressTrackerView = data.getProgressTracker((String)Session["userId"], (String)Session["cmyId"]);
-            }
-            if(threadsView ==null && Session["userId"] != null && Session["cmyId"] != null)
-            {
                 threadsView = data.getThreads((String)Session["userId"], (String)Session["cmyId"]);
-            }
-            if(otherThreadsView == null && Session["userId"] != null && Session["cmyId"] != null)
-            {
                 otherThreadsView = data.getOtherThreads((String)Session["userId"], (String)Session["cmyId"]);
             }
-            
-            Module smvm = new Module(submissionViewList, progressTrackerView, threadsView, otherThreadsView);
+            Module module = new Module(submissionViewList, progressTrackerView, threadsView, otherThreadsView);
             if(Request.Form["moduleName"] != null)
             {
                 Session["moduleName"] = Request.Form["moduleName"].ToString();
             }
-            smvm.moduleName = Session["moduleName"].ToString();
-            return View(smvm);
+            module.moduleName = Session["moduleName"].ToString();
+            return View(module);
         }
         [HttpPost]
         public ActionResult uploadSubmission(HttpPostedFileBase btnFile)
